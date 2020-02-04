@@ -2,6 +2,7 @@ import math
 
 class State:
     """Define the state of an area by:
+    - name
     - gamma
     - density rho
     - velocity u
