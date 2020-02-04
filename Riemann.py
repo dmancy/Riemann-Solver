@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from State import State
+import Wave
 
 def function_F(W, gamma, P_eval):
     #Evaluation of the function
@@ -49,10 +50,35 @@ def Riemann(rho_l, u_l, p_l, rho_r, u_r, p_r, gamma, sampling_point):
     W_left.print()
     W_right.print()
 
+    #Compute P_star and U_star
     P_star = Find_P(W_left, W_right, gamma)
     U_star = Find_U(W_left, W_right, P_star, gamma)
 
-    print(U_star)
+    if (P_star > W_left.p):
+        #Left shock wave
+        rho_star_l = W_left.rho * (P_star/W_left.p + (gamma-1)/(gamma+1))/((gamma-1)/(gamma+1) * P_star/W_left.p + 1)
+        S_L = W_left.c * ((gamma+1)/(2*gamma) * (P_star/W_left.p) + (gamma-1)/(2*gamma))**.5
+    else:
+        #Left rarefaction wave
+        rho_star_l = W_left.rho * (P_star/W_left.p)**(1/gamma)
+        c_star_l  = W_left.c * (P_star/W_left.p)**((gamma-1)/(2*gamma))
+        S_HL = W_left.u - W_left.c
+        S_TL = U_star - c_star_l
+
+    if (P_star > W_right.p):
+        #Right shock wave
+        rho_star_r = W_right.rho * (P_star/W_right.p + (gamma-1)/(gamma+1))/((gamma-1)/(gamma+1) * P_star/W_right.p + 1)
+        S_R = W_right.c * ((gamma+1)/(2*gamma) * (P_star/W_right.p) + (gamma-1)/(2*gamma))**.5
+        print("S_R", S_R)
+    else:
+        #Right rarefaction wave
+        rho_star_r = W_right.rho * (P_star/W_right_p)**(1/gamma)
+        c_star_r  = W_right.c * (P_star/W_right_p)**((gamma-1)/(2*gamma))
+        S_HR = W_right.u - W_right.c
+        S_TR = U_star - c_star_r
+
+    print(type(W_left))
+
 
 Riemann(5.81, 0, 5*10**5, 1.16, 0, 100*10**3, 1.4, 0.5)
 
