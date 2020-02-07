@@ -44,12 +44,12 @@ def Find_U(W_left, W_right, P_star, gamma):
 
 
 
-def Riemann_Computation(rho_l, u_l, p_l, rho_r, u_r, p_r, gamma, sampling_point):
+def Riemann_Computation(rho_l, u_l, p_l, rho_r, u_r, p_r, gamma):
 
     W_left = State("Left", gamma, rho_l, u_l, p_l)
     W_right = State("Right", gamma, rho_r, u_r, p_r)
-    W_left.print()
-    W_right.print()
+#    W_left.print()
+#    W_right.print()
 
     #Compute P_star and U_star
     P_star = Find_P(W_left, W_right, gamma)
@@ -96,12 +96,14 @@ def Riemann_Computation(rho_l, u_l, p_l, rho_r, u_r, p_r, gamma, sampling_point)
         W_right_star = State("Right star", gamma, rho_star_r, U_star, P_star)
 
     R1 = Riemann(W_left, W_left_star, W_right_star, W_right, Left_Wave, Right_Wave)
+
+    return R1
     
 
 
 
 
-Riemann_Computation(5.81, 0, 5*10**5, 1.16, 0, 100*10**3, 1.4, 0.5)
+#Riemann_Computation(5.81, 0, 5*10**5, 1.16, 0, 100*10**3, 1.4, 0.5)
 
 
 	
