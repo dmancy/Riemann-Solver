@@ -42,12 +42,12 @@ class Expansion_Fan:
 
 
     def velocity(self, gamma, sampling_point):
-        return 2/(gamma+1) * (- self.side + (gamma-1)/2*self.velocity_side + sampling_point)
+        return 2/(gamma+1) * (- self.Side * self.c_side + (gamma-1)/2*self.velocity_side + sampling_point)
         
 
     def pressure(self, gamma, sampling_point):
-        return self.pressure_side * (2/(gamma+1) - self.side* (gamma-1)/(gamma+1) * 1/self.c_side * (self.velocity_side - sampling_point))**(2*gamma/(gamma-1))
+        return self.pressure_side * (2/(gamma+1) - self.Side* (gamma-1)/(gamma+1) * 1/self.c_side * (self.velocity_side - sampling_point))**(2*gamma/(gamma-1))
 
     def density(self, gamma, sampling_point):
-        return self.density_side * (2/(gamma+1) - self.side* (gamma-1)/(gamma+1) * 1/self.c_side * (self.velocity_side - sampling_point))**(2/gamma-1)
+        return self.density_side * (2/(gamma+1) - self.Side* (gamma-1)/(gamma+1) * 1/self.c_side * (self.velocity_side - sampling_point))**(2/gamma-1)
 

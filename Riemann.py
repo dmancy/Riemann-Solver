@@ -54,6 +54,8 @@ def Riemann_Computation(rho_l, u_l, p_l, rho_r, u_r, p_r, gamma):
     #Compute P_star and U_star
     P_star = Find_P(W_left, W_right, gamma)
     U_star = Find_U(W_left, W_right, P_star, gamma)
+    print(U_star, P_star)
+    W_left.print()
 
     #Define the right and left waves, as well as the states right and left of the Ccontact_surface
 
@@ -61,7 +63,6 @@ def Riemann_Computation(rho_l, u_l, p_l, rho_r, u_r, p_r, gamma):
         #Left shock wave
         rho_star_l = W_left.rho * (P_star/W_left.p + (gamma-1)/(gamma+1))/((gamma-1)/(gamma+1) * P_star/W_left.p + 1)
         S_L = W_left.c * ((gamma+1)/(2*gamma) * (P_star/W_left.p) + (gamma-1)/(2*gamma))**.5
-
         Left_Wave = Wave.Shock(-1, S_L)
         W_left_star = State("Left star", gamma, rho_star_l, U_star, P_star)
 
