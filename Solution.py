@@ -7,10 +7,10 @@ def Solution(Riemann_problem, sampling_point):
 
         gamma = Riemann_problem.W_right.gamma
 
-        if (sampling_point < Riemann_problem.W_left_star.u):
+        if (sampling_point < Riemann_problem.W_left_star.velocity):
             #We are on the left from CS
 
-            if (Riemann_problem.W_left_star.p < Riemann_problem.W_left.p):
+            if (Riemann_problem.W_left_star.pressure < Riemann_problem.W_left.pressure):
                 #Left fan
                 if (sampling_point < Riemann_problem.Left_Wave.SH):
                     return Riemann_problem.W_left
@@ -36,7 +36,7 @@ def Solution(Riemann_problem, sampling_point):
         else:
             #We are on the right from CS
 
-            if (Riemann_problem.W_right_star.p < Riemann_problem.W_right.p):
+            if (Riemann_problem.W_right_star.pressure < Riemann_problem.W_right.pressure):
                 #Right fan
                 if (sampling_point > Riemann_problem.Right_Wave.SH):
                     return Riemann_problem.W_right

@@ -21,12 +21,22 @@ from Solution import Solution
 #Riemann_problem.plot_time(X, x0,  t)
 
 #Problem 2
-Riemann_problem = Riemann_Computation(1., -2., 0.4, 1., 2., 0.4, 1.4)
+#Riemann_problem = Riemann_Computation(1., -2., 0.4, 1., 2., 0.4, 1.4)
 
-print(Riemann_problem.Left_Wave.type())
-print(Riemann_problem.Right_Wave.type())
 
-t = 0.15
+#t = 0.15
+#N = 1000
+#X = [-.5 + 1./N * (i - 0.5) for i in range(1, N+1)]
+#x0 = 0.0
+
+#Riemann_problem.plot_time(X, x0,  t)
+
+
+#Problem 1
+Riemann_problem = Riemann_Computation(8., 0, 480, 1., 0., 1., 5/3)
+
+
+t = 0.04
 N = 1000
 X = [-.5 + 1./N * (i - 0.5) for i in range(1, N+1)]
 x0 = 0.0

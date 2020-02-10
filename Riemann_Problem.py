@@ -22,12 +22,12 @@ class Riemann:
             return Solution(self, sampling_point)
 
     def plot_time(self, X, x0, t):
-            Pressure = [Solution(self, (x-x0)/t).p for x in X]
-            Velocity = [Solution(self, (x-x0)/t).u for x in X]
+            Pressure = [Solution(self, (x-x0)/t).pressure for x in X]
+            Velocity = [Solution(self, (x-x0)/t).velocity for x in X]
             Density = [Solution(self, (x-x0)/t).rho for x in X]
 
             fig, axs = plt.subplots(3, sharex=True)
-            fig.suptitle("Solution of the Riemann problem.")
+            fig.suptitle("Solution of the Riemann problem")
             axs[0].plot(X, Density)
             axs[1].plot(X, Velocity)
             axs[2].plot(X, Pressure)
