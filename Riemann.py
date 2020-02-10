@@ -12,7 +12,6 @@ def function_F(W, gamma, P_eval):
         return (2*W.c/(gamma-1)) * ((P_eval/W.p)**((gamma-1)/(2*gamma)) - 1)
 
 
-
 def derivative_F(W, gamma, P_eval):
     #Evaluation of the derivative
     if (P_eval > W.p):
@@ -24,7 +23,8 @@ def derivative_F(W, gamma, P_eval):
 def Find_P(W_left, W_right, gamma):
 
     #Acoustic approximation
-    P0 = (W_left.p * W_left.rho * W_left.c + W_right.p * W_right.rho * W_right.c + (W_left.u - W_right.u) * W_right.rho * W_right.c * W_left.rho * W_left.c)/(W_left.rho * W_left.c + W_right.rho * W_right.c)
+    P0 = (W_left.p * W_right.rho * W_right.c + W_right.p * W_left.rho * W_left.c + (W_left.u - W_right.u) * W_right.rho * W_right.c * W_left.rho * W_left.c)/(W_left.rho * W_left.c + W_right.rho * W_right.c)
+    print(P0)
 
     epsilon = 1
 
@@ -53,6 +53,7 @@ def Riemann_Computation(rho_l, u_l, p_l, rho_r, u_r, p_r, gamma):
 
     #Compute P_star and U_star
     P_star = Find_P(W_left, W_right, gamma)
+    print(P_star)
     U_star = Find_U(W_left, W_right, P_star, gamma)
     print(U_star, P_star)
     W_left.print()
