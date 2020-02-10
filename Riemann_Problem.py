@@ -27,7 +27,7 @@ class Riemann:
             Density = [Solution(self, (x-x0)/t).rho for x in X]
 
             fig, axs = plt.subplots(3, sharex=True)
-            fig.suptitle("Solution of the Riemann problem")
+            fig.suptitle("Solution of the Riemann problem\nat t = {}s".format(t))
             axs[0].plot(X, Density)
             axs[1].plot(X, Velocity)
             axs[2].plot(X, Pressure)
@@ -39,5 +39,5 @@ class Riemann:
             axs[2].grid()
             axs[2].set(ylabel = "Pressure")
 
-            plt.xlabel("x")
+            plt.xlabel("Location x")
             plt.show()
