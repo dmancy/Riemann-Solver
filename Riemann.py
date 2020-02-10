@@ -24,16 +24,18 @@ def Find_P(W_left, W_right, gamma):
 
     #Acoustic approximation
     P0 = (W_left.p * W_right.rho * W_right.c + W_right.p * W_left.rho * W_left.c + (W_left.u - W_right.u) * W_right.rho * W_right.c * W_left.rho * W_left.c)/(W_left.rho * W_left.c + W_right.rho * W_right.c)
-    print(P0)
 
+    P0 = 0.000001
     epsilon = 1
+    count = 0
 
-    while (epsilon > 10**-6):
+    while (epsilon > 10**-6 and count < 1000):
 
-        P1 = P0 - (function_F(W_left, gamma, P0) + function_F(W_right, gamma, P0))/(derivative_F(W_left, gamma, P0) + derivative_F(W_right, gamma, P0))
+        P1 = P0 - (W_right.u - W_left.u + function_F(W_left, gamma, P0) + function_F(W_right, gamma, P0))/(derivative_F(W_left, gamma, P0) + derivative_F(W_right, gamma, P0))
 
         epsilon = abs(P1 - P0)/P0
         P0 = P1
+        count+= 1
 
     return P1
 

@@ -21,10 +21,10 @@ class Riemann:
     def eval_sampling_point(self, sampling_point):
             return Solution(self, sampling_point)
 
-    def plot_time(self, X, t):
-            Pressure = [Solution(self, x/t).p for x in X]
-            Velocity = [Solution(self, x/t).u for x in X]
-            Density = [Solution(self, x/t).rho for x in X]
+    def plot_time(self, X, x0, t):
+            Pressure = [Solution(self, (x-x0)/t).p for x in X]
+            Velocity = [Solution(self, (x-x0)/t).u for x in X]
+            Density = [Solution(self, (x-x0)/t).rho for x in X]
 
             fig, axs = plt.subplots(3, sharex=True)
             fig.suptitle("Solution of the Riemann problem.")
