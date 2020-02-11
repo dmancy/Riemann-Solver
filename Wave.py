@@ -1,5 +1,5 @@
 class Shock:
-
+    """Defined a shock wave"""
     def __init__(self, side, speed):
         self.speed = speed
         self.side = side
@@ -10,8 +10,10 @@ class Shock:
     def location(self, t):
         return self.speed * t
 
-class Contact_Surface:
 
+
+class Contact_Surface:
+    """Define a contact Surface"""
     def __init__(self, speed):
         self.U_star = speed
 
@@ -22,7 +24,7 @@ class Contact_Surface:
         return self.U_star * t
 
 class Expansion_Fan:
-
+    """Define an expansion fan"""
     def __init__(self, side, speed_tail, speed_head, c_side, velocity_side, pressure_side, density_side):
         self.Side = side # +1 if right, -1 if left
         self.ST = speed_tail
@@ -42,12 +44,15 @@ class Expansion_Fan:
 
 
     def velocity(self, gamma, sampling_point):
+        """Compute the velocity at a given sampling point inside the expansion fan"""
         return 2/(gamma+1) * (- self.Side * self.c_side + (gamma-1)/2*self.velocity_side + sampling_point)
         
 
     def pressure(self, gamma, sampling_point):
+        """Compute the pressure at a given sampling point inside the expansion fan"""
         return self.pressure_side * (2/(gamma+1) - self.Side* (gamma-1)/(gamma+1) * 1/self.c_side * (self.velocity_side - sampling_point))**(2*gamma/(gamma-1))
 
     def density(self, gamma, sampling_point):
+        """Compute the density at a given sampling point inside the expansion fan"""
         return self.density_side * (2/(gamma+1) - self.Side* (gamma-1)/(gamma+1) * 1/self.c_side * (self.velocity_side - sampling_point))**(2/(gamma-1))
 

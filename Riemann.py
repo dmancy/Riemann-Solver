@@ -5,7 +5,7 @@ import Wave
 from Riemann_Problem import Riemann
 
 def function_F(W, gamma, P_eval):
-    #Evaluation of the function
+    #Evaluation of the function f
     if (P_eval > W.pressure):
         return (P_eval - W.pressure) * (2/((gamma+1) * W.rho) / (P_eval + (gamma-1)/(gamma+1) * W.pressure))**.5
     else:
@@ -13,7 +13,7 @@ def function_F(W, gamma, P_eval):
 
 
 def derivative_F(W, gamma, P_eval):
-    #Evaluation of the derivative
+    #Evaluation of the derivative of f
     if (P_eval > W.pressure):
         return (2/((gamma+1) * W.rho) / (P_eval + (gamma-1)/(gamma+1) * W.pressure))**.5 * (1 - (P_eval - W.pressure)/(2*(P_eval + (gamma-1)/(gamma+1) * W.pressure)))
     else:
@@ -21,6 +21,7 @@ def derivative_F(W, gamma, P_eval):
 
 
 def Find_P(W_left, W_right, gamma):
+    #Find P around the contact surface
 
     #Acoustic approximation
     P0 = (W_left.pressure * W_right.rho * W_right.c + W_right.pressure * W_left.rho * W_left.c + (W_left.velocity - W_right.velocity) * W_right.rho * W_right.c * W_left.rho * W_left.c)/(W_left.rho * W_left.c + W_right.rho * W_right.c)
@@ -40,6 +41,7 @@ def Find_P(W_left, W_right, gamma):
     return P1
 
 def Find_U(W_left, W_right, P_star, gamma):
+    #Compute U around the contact surface
 
     return .5*(W_left.velocity + W_right.velocity) + .5*(function_F(W_right, gamma, P_star) - function_F(W_left, gamma, P_star))
 
@@ -47,6 +49,7 @@ def Find_U(W_left, W_right, P_star, gamma):
 
 
 def Riemann_Computation(rho_l, u_l, p_l, rho_r, u_r, p_r, gamma):
+    #Determine the types of waves involved in the Riemann problem as well as conditions between those waves
 
     W_left = State("Left", gamma, rho_l, u_l, p_l)
     W_right = State("Right", gamma, rho_r, u_r, p_r)
@@ -55,8 +58,7 @@ def Riemann_Computation(rho_l, u_l, p_l, rho_r, u_r, p_r, gamma):
     P_star = Find_P(W_left, W_right, gamma)
     U_star = Find_U(W_left, W_right, P_star, gamma)
 
-    #Define the right and left waves, as well as the states right and left of the Ccontact_surface
-
+    #Define the right and left waves, as well as the states right and left of the Contact surface
     if (P_star > W_left.pressure):
         #Left shock wave
         rho_star_l = W_left.rho * (P_star/W_left.pressure + (gamma-1)/(gamma+1))/((gamma-1)/(gamma+1) * P_star/W_left.pressure + 1)
@@ -94,15 +96,8 @@ def Riemann_Computation(rho_l, u_l, p_l, rho_r, u_r, p_r, gamma):
         Right_Wave = Wave.Expansion_Fan(1, S_TR, S_HR, W_right.c, W_right.velocity, W_right.pressure, W_right.rho)
         W_right_star = State("Right star", gamma, rho_star_r, U_star, P_star)
 
+    #Creation of a Riemann instance
     R1 = Riemann(W_left, W_left_star, W_right_star, W_right, Left_Wave, Right_Wave)
 
     return R1
     
-
-
-
-
-#Riemann_Computation(5.81, 0, 5*10**5, 1.16, 0, 100*10**3, 1.4, 0.5)
-
-
-	
