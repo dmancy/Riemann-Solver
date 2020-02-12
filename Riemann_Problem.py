@@ -47,6 +47,7 @@ class Riemann:
             axs[1].set(ylabel = "Velocity")
             axs[2].grid()
             axs[2].set(ylabel = "Pressure")
+            plt.xlim((-.5, .5))
 
             plt.xlabel("Location x")
             plt.show()
