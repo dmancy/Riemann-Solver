@@ -3,37 +3,45 @@ import math
 import matplotlib.pyplot as plt
 
 from Solution import Solution
+from plot_wave import plot_wave
 
 class Riemann:
-    """Define a Riemann Problem by:
-    - the left state W_left
-    - the state between the left wave and the contact surface W_left_star
-    - the state between the contact surface and the right wave W_right_star
-    - the right state W_right
-    - the left wave Left_Wave
-    - the right eave Right_Wave"""
 
-    def __init__(self, W_left, W_left_star, W_right_star, W_right, Left_Wave, Right_Wave): 
+    def __init__(self, W_left, W_right, U_star, P_star, gamma): 
             """Constructor"""
-
             self.W_left = W_left
-            self.W_left_star = W_left_star
-            self.W_right_star = W_right_star
             self.W_right = W_right
+            self.U_star = U_star
+            self.P_star = P_star
+            self.gamma = gamma
             
-            self.Left_Wave = Left_Wave
-            self.Right_Wave = Right_Wave
 
 
     def eval_sampling_point(self, sampling_point):
             """Compute the state a a given sampling point x/t"""
             return Solution(self, sampling_point)
 
-    def plot_time(self, X, x0, t):
-            """Plot the repartition of density, velocity and pressure at a given time t, on a mesh X, where the origin of the discontinuity is in x0"""
+    def plot_time(self, X, x0, t, string):
+            """Plot the repartition of density, velocity and pressure at a given time t, on a mesh X, where the origin of the discontinuity is in x0. Save raw data in a file."""
+
+            f = open("{}.txt".format(string), "w")
+            f.write('%10s'%"x")
+            f.write('%15s'%"rho")
+            f.write('%15s'%"ux")
+            f.write('%15s'%"p\n")
+
+
             Pressure = [Solution(self, (x-x0)/t).pressure for x in X]
             Velocity = [Solution(self, (x-x0)/t).velocity for x in X]
             Density = [Solution(self, (x-x0)/t).rho for x in X]
+
+            for i in range(len(X)):
+                f.write('%10.5E'%X[i])
+                f.write('%15.5E'%Density[i])
+                f.write('%15.5E'%Velocity[i])
+                f.write('%15.5E'%Pressure[i])
+                f.write("\n")
+
 
             fig, axs = plt.subplots(3, sharex=True)
             fig.suptitle("Solution of the Riemann problem\nat t = {}s".format(t))
@@ -50,6 +58,36 @@ class Riemann:
             plt.xlim((-.5, .5))
 
             plt.xlabel("Location x")
-            plt.show()
+
+    def plot_diagram(self, X, x0, t2):
+
+            fig = plt.figure()
+            gamma = self.gamma
+            if (self.P_star > self.W_left.pressure):
+                #Left shock
+                Speed_Shock = self.W_left.velocity - self.W_left.c * ((gamma+1)/(2*gamma) * (self.P_star/self.W_left.pressure) + (gamma-1)/(2*gamma))**.5
+                plot_wave(Speed_Shock, X, x0, 0, t2)
+            else:
+                #Left expansion wave
+                c_star_l  = self.W_left.c * (self.P_star/self.W_left.pressure)**((gamma-1)/(2*gamma))
+                Speed_HL = self.W_left.velocity - self.W_left.c
+                Speed_TL = self.U_star - c_star_l
+                plot_wave(Speed_TL, X, x0, 0, t2)
+                plot_wave(Speed_HL, X, x0, 0, t2)
+
+            if (self.P_star > self.W_right.pressure):
+                #Left shock
+                Speed_Shock = self.W_right.velocity + self.W_right.c * ((gamma+1)/(2*gamma) * (self.P_star/self.W_right.pressure) + (gamma-1)/(2*gamma))**.5
+                plot_wave(Speed_Shock, X, x0, 0, t2)
+
+            if (self.U_star != 0):
+                #Plot contact surface if not vacuum
+                plot_wave(self.U_star, X, x0, 0, t2)
+
+            plt.grid()
+            ax = fig.add_subplot(1, 1, 1)
+            ax.spines['left'].set_position('center')
+
+
 
 

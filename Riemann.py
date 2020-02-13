@@ -31,18 +31,15 @@ def Find_P(W_left, W_right, gamma):
     count = 0
 
     while (epsilon > 10**-6 and count < 1000):
-
         P1 = P0 - (W_right.velocity - W_left.velocity + function_F(W_left, gamma, P0) + function_F(W_right, gamma, P0))/(derivative_F(W_left, gamma, P0) + derivative_F(W_right, gamma, P0))
-
         epsilon = abs(P1 - P0)/P0
         P0 = P1
         count+= 1
-
     return P1
+
 
 def Find_U(W_left, W_right, P_star, gamma):
     #Compute U around the contact surface
-
     return .5*(W_left.velocity + W_right.velocity) + .5*(function_F(W_right, gamma, P_star) - function_F(W_left, gamma, P_star))
 
 
@@ -58,6 +55,11 @@ def Riemann_Computation(rho_l, u_l, p_l, rho_r, u_r, p_r, gamma):
     P_star = Find_P(W_left, W_right, gamma)
     U_star = Find_U(W_left, W_right, P_star, gamma)
 
+    #Creation of a Riemann instance
+    R = Riemann(W_left, W_right, U_star, P_star, gamma)
+
+    return R
+"""
     #Define the right and left waves, as well as the states right and left of the Contact surface
     if (P_star > W_left.pressure):
         #Left shock wave
@@ -100,4 +102,5 @@ def Riemann_Computation(rho_l, u_l, p_l, rho_r, u_r, p_r, gamma):
     R1 = Riemann(W_left, W_left_star, W_right_star, W_right, Left_Wave, Right_Wave)
 
     return R1
+    """
     

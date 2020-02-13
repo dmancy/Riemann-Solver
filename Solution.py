@@ -3,59 +3,80 @@ import numpy as np
 from State import State
 
 
-def Solution(Riemann_problem, sampling_point):
+def Solution(R, sampling_point):
         #return the state of a given Riemann problem, at a given sampling point x/t
 
-        gamma = Riemann_problem.W_right.gamma
+        gamma = R.W_right.gamma
 
-        if (sampling_point < Riemann_problem.W_left_star.velocity):
+        if (sampling_point < R.U_star):
             #We are on the left from CS
 
-            if (Riemann_problem.W_left_star.pressure < Riemann_problem.W_left.pressure):
+            if (R.P_star < R.W_left.pressure):
                 #Left expansion fan
-                if (sampling_point < Riemann_problem.Left_Wave.SH):
-                    #We are before the expansion fan
-                    return Riemann_problem.W_left
+                c_star_l  = R.W_left.c * (R.P_star/R.W_left.pressure)**((gamma-1)/(2*gamma))
+                Speed_HL = R.W_left.velocity - R.W_left.c
+                Speed_TL = R.U_star - c_star_l
 
-                elif (sampling_point > Riemann_problem.Left_Wave.ST):
+                if (sampling_point < Speed_HL):
+                    #We are before the expansion fan
+                    return R.W_left
+
+                elif (sampling_point > Speed_TL):
                     #We are after the expansion fan
-                    return Riemann_problem.W_left_star
+                    rho_star_l = R.W_left.rho * (R.P_star/R.W_left.pressure)**(1/gamma)
+                    return State("Left star", gamma, rho_star_l, R.U_star, R.P_star)
 
                 else:
                     #We are inside the expansion fan
-                    rho = Riemann_problem.Left_Wave.density(gamma, sampling_point)
-                    u = Riemann_problem.Left_Wave.velocity(gamma, sampling_point)
-                    p = Riemann_problem.Left_Wave.pressure(gamma, sampling_point)
+                    rho = R.W_left.rho * (2/(gamma+1) + (gamma-1)/(gamma+1) * 1/R.W_left.c * (R.W_left.velocity - sampling_point))**(2/(gamma-1))
+                    u =  2/(gamma+1) * (  R.W_left.c + (gamma-1)/2*R.W_left.velocity + sampling_point)
+                    p = R.W_left.pressure * (2/(gamma+1) + (gamma-1)/(gamma+1) * 1/R.W_left.c * (R.W_left.velocity - sampling_point))**(2*gamma/(gamma-1))
+
                     return State("Expansion Fan", gamma, rho, u, p)
 
             else:
                 #Left Shock wave
-                if(sampling_point < Riemann_problem.Left_Wave.speed):
-                    return Riemann_problem.W_left
+                Speed_Shock = R.W_left.velocity - R.W_left.c * ((gamma+1)/(2*gamma) * (R.P_star/R.W_left.pressure) + (gamma-1)/(2*gamma))**.5
+
+                if(sampling_point < Speed_Shock):
+                    #W_left
+                    return R.W_left
+
                 else:
-                    return Riemann_problem.W_left_star
+                    #W_left_star
+                    rho_star_l = R.W_left.rho * (R.P_star/R.W_left.pressure + (gamma-1)/(gamma+1))/((gamma-1)/(gamma+1) * R.P_star/R.W_left.pressure + 1)
+                    return State("Left star", gamma, rho_star_l, R.U_star, R.P_star)
 
         else:
             #We are on the right from CS
 
-            if (Riemann_problem.W_right_star.pressure < Riemann_problem.W_right.pressure):
+            if (R.P_star < R.W_right.pressure):
                 #Right fan
-                if (sampling_point > Riemann_problem.Right_Wave.SH):
-                    return Riemann_problem.W_right
+                c_star_r  = R.W_right.c * (R.P_star/R.W_right.pressure)**((gamma-1)/(2*gamma))
+                Speed_HR = R.W_right.velocity + R.W_right.c
+                Speed_TR = R.U_star + c_star_r
 
-                elif (sampling_point < Riemann_problem.Right_Wave.ST):
-                    return Riemann_problem.W_right_star
+                if (sampling_point > Speed_HR):
+                    return R.W_right
+
+                elif (sampling_point < Speed_TR):
+                    rho_star_r = R.W_right.rho * (R.P_star/R.W_right.pressure)**(1/gamma)
+                    return State("Right star", gamma, rho_star_r, R.U_star, R.P_star)
 
                 else:
+                    rho = R.W_right.rho * (2/(gamma+1) - (gamma-1)/(gamma+1) * 1/R.W_right.c * (R.W_right.velocity - sampling_point))**(2/(gamma-1))
+                    u =  2/(gamma+1) * (  -R.W_right.c + (gamma-1)/2*R.W_right.velocity + sampling_point)
+                    p = R.W_right.pressure * (2/(gamma+1) - (gamma-1)/(gamma+1) * 1/R.W_right.c * (R.W_right.velocity - sampling_point))**(2*gamma/(gamma-1))
 
-                    rho = Riemann_problem.Right_Wave.density(gamma, sampling_point)
-                    u = Riemann_problem.Right_Wave.velocity(gamma, sampling_point)
-                    p = Riemann_problem.Right_Wave.pressure(gamma, sampling_point)
                     return State("Expansion Fan", gamma, rho, u, p)
 
             else:
-                if(sampling_point > Riemann_problem.Right_Wave.speed):
-                    return Riemann_problem.W_right
+                #Right Shock Wave
+                Speed_Shock = R.W_right.velocity + R.W_right.c * ((gamma+1)/(2*gamma) * (R.P_star/R.W_right.pressure) + (gamma-1)/(2*gamma))**.5
+
+                if(sampling_point > Speed_Shock):
+                    return R.W_right
                 else:
-                    return Riemann_problem.W_right_star
+                    rho_star_r = R.W_right.rho * (R.P_star/R.W_right.pressure + (gamma-1)/(gamma+1))/((gamma-1)/(gamma+1) * R.P_star/R.W_right.pressure + 1)
+                    return State("Right star", gamma, rho_star_r, R.U_star, R.P_star)
 
