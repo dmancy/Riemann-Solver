@@ -26,7 +26,7 @@ class Riemann:
             """Plot the repartition of density, velocity and pressure at a given time t, on a mesh X, where the origin of the discontinuity is in x0. Save raw data in a file."""
 
             f = open("{}.txt".format(string), "w")
-            f.write('%10s'%"x")
+            f.write('%12s'%"x")
             f.write('%15s'%"rho")
             f.write('%15s'%"ux")
             f.write('%15s'%"p\n")
@@ -37,7 +37,7 @@ class Riemann:
             Density = [Solution(self, (x-x0)/t).rho for x in X]
 
             for i in range(len(X)):
-                f.write('%10.5E'%X[i])
+                f.write('%12.5E'%X[i])
                 f.write('%15.5E'%Density[i])
                 f.write('%15.5E'%Velocity[i])
                 f.write('%15.5E'%Pressure[i])

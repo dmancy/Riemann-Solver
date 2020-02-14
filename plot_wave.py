@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 
 def plot_wave(speed, X, x0, t1, t2, str_label):
-        
+        #Plot a wave on a x-t diagram 
         T = []
         X2 = [] #New X array
         for x in X:
