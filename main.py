@@ -36,7 +36,6 @@ Riemann_problem.plot_diagram(X, x0, 1)
 #Problem 2
 Riemann_problem = Riemann_Computation(1., -2., 0.4, 1., 2., 0.4, 1.4)
 
-
 t = 0.15
 N = 1000
 X = [-.5 + 1./N * (i - 0.5) for i in range(1, N+1)]
@@ -48,8 +47,6 @@ Riemann_problem.plot_diagram(X, x0, 1)
 
 #Problem 3
 Riemann_problem = Riemann_Computation(1., -19.59745, 1000., 1., -19.59745, 0.01, 1.4)
-
-
 
 t = 0.012
 N = 1000
