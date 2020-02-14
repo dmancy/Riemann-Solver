@@ -13,3 +13,5 @@ To run the code, any version of python must be installed.
 The command line is:
 
 python main.py
+
+#### Damien Mancy - 260855482
