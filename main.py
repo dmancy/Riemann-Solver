@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from Riemann import Riemann_Computation
 from State import State
 from Solution import Solution
+from Riemann import Riemann
 
 
 #Solve of the Riemann Problem
@@ -21,7 +21,7 @@ from Solution import Solution
 #Riemann_problem.plot_time(X, x0,  t)
 
 #Problem 1
-Riemann_problem = Riemann_Computation(8., 0, 480, 1., 0., 1., 5/3)
+Riemann_problem = Riemann(8., 0, 480, 1., 0., 1., 5/3)
 
 
 t = 0.04
@@ -34,7 +34,7 @@ Riemann_problem.plot_diagram(X, x0, 1)
 
 
 #Problem 2
-Riemann_problem = Riemann_Computation(1., -2., 0.4, 1., 2., 0.4, 1.4)
+Riemann_problem = Riemann(1., -2., 0.4, 1., 2., 0.4, 1.4)
 
 t = 0.15
 N = 1000
@@ -46,7 +46,7 @@ Riemann_problem.plot_diagram(X, x0, 1)
 
 
 #Problem 3
-Riemann_problem = Riemann_Computation(1., -19.59745, 1000., 1., -19.59745, 0.01, 1.4)
+Riemann_problem = Riemann(1., -19.59745, 1000., 1., -19.59745, 0.01, 1.4)
 
 t = 0.012
 N = 1000
