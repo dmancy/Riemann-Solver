@@ -62,32 +62,42 @@ class Riemann:
     def plot_diagram(self, X, x0, t2):
 
             fig = plt.figure()
+            ax = fig.add_subplot(1, 1, 1)
+            axis = plt.gca()
+
             gamma = self.gamma
             if (self.P_star > self.W_left.pressure):
                 #Left shock
                 Speed_Shock = self.W_left.velocity - self.W_left.c * ((gamma+1)/(2*gamma) * (self.P_star/self.W_left.pressure) + (gamma-1)/(2*gamma))**.5
-                plot_wave(Speed_Shock, X, x0, 0, t2)
+                plot_wave(Speed_Shock, X, x0, 0, 2, "Left Shock Wave")
             else:
                 #Left expansion wave
                 c_star_l  = self.W_left.c * (self.P_star/self.W_left.pressure)**((gamma-1)/(2*gamma))
                 Speed_HL = self.W_left.velocity - self.W_left.c
                 Speed_TL = self.U_star - c_star_l
-                plot_wave(Speed_TL, X, x0, 0, t2)
-                plot_wave(Speed_HL, X, x0, 0, t2)
+                plot_wave(Speed_TL, X, x0, 0, 2, "Tail of the Left Expansion Wave")
+                plot_wave(Speed_HL, X, x0, 0, 2, "Head of the Left Expansion Wave")
 
             if (self.P_star > self.W_right.pressure):
-                #Left shock
+                #Right Shock
                 Speed_Shock = self.W_right.velocity + self.W_right.c * ((gamma+1)/(2*gamma) * (self.P_star/self.W_right.pressure) + (gamma-1)/(2*gamma))**.5
-                plot_wave(Speed_Shock, X, x0, 0, t2)
+                plot_wave(Speed_Shock, X, x0, 0, 2, "Right Shock Wave")
+            else:
+                #Right expansion wave
+                c_star_r  = self.W_right.c * (self.P_star/self.W_right.pressure)**((gamma-1)/(2*gamma))
+                Speed_HR = self.W_right.velocity + self.W_right.c
+                Speed_TR = self.U_star + c_star_r
+                plot_wave(Speed_TR, X, x0, 0, 2, "Tail of the Right Expansion Wave")
+                plot_wave(Speed_HR, X, x0, 0, 2, "Head of the Right Expansion Wave")
 
             if (self.U_star != 0):
                 #Plot contact surface if not vacuum
-                plot_wave(self.U_star, X, x0, 0, t2)
+                plot_wave(self.U_star, X, x0, 0, 2, "Contact Surface")
 
             plt.grid()
-            ax = fig.add_subplot(1, 1, 1)
             ax.spines['left'].set_position('center')
-
-
+            ax.legend()
+            plt.xlabel("Position x")
+            plt.ylabel("Time t")
 
 
