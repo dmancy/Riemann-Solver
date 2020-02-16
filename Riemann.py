@@ -10,7 +10,7 @@ from State import State
 class Riemann:
 
     def __init__(self, rho_l, u_l, p_l, rho_r, u_r, p_r, gamma): 
-            """Constructor"""
+            """Constructor of a Riemann Problem"""
             self.W_left = State("Left", gamma, rho_l, u_l, p_l)
             self.W_right = State("Right", gamma, rho_r, u_r, p_r)
             self.gamma = gamma
@@ -19,7 +19,7 @@ class Riemann:
 
 
     def eval_sampling_point(self, sampling_point):
-            """Compute the state a a given sampling point x/t"""
+            """Compute the state at a given sampling point x/t"""
             return Solution(self, sampling_point)
 
     def plot_time(self, X, x0, t, string):
