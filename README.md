@@ -1,3 +1,17 @@
 # Riemann-Solver
-The entry parameters must be the left values W L = (ρ L , u L , p L ), the right values W R = (ρ R , u R , p R ), the specific heat ratio γ (assume it to be the same on both sides of the initial discontinuity), and the sampling point x/t where the solution is to be determined.
+## Mech-516 : Computational Gasdynamics
+### Mini-Project #1 - Riemann Solver
 
+
+This program solves a Riemann problem by providing the left state W L = (ρ L , u L , p L ), right state W R = (ρ R , u R , p R ) and gamma, the heat capacity ratio.
+The class Riemann provides methods to plot the density, velocity and pressure plots at a givet time t, as well as x-t diagrams.
+
+### Prerequisites
+The file main.py gathers all the 3 cases of Task 2 as presented in the Mini-Project.
+
+To run the code, any version of python must be installed.
+The command line is:
+
+python main.py
+
+#### Damien Mancy - 260855482
