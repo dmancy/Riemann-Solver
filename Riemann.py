@@ -98,7 +98,7 @@ class Riemann:
             plt.grid()
             ax.spines['left'].set_position('center')
             ax.legend()
-            plt.xlabel("Position x")
+            plt.xlabel("Location x")
             plt.ylabel("Time t")
 
 
