@@ -8,6 +8,15 @@ from plot_wave import plot_wave
 from State import State
 
 class Riemann:
+    """Definition of a 1D Riemann Problem:
+    - W_left       : Left state
+    - W_right      : Right state
+    - W_left_star  : Left star region
+    - W_right_star : Right star region
+    - gamma        : Heat capacity ratio
+    - P_star       : Pressure in region Left star and Right star
+    - U_star       : Velocity in region Left star and Right star"""
+    
 
     def __init__(self, rho_l, u_l, p_l, rho_r, u_r, p_r, gamma): 
             """Constructor of a Riemann Problem"""
@@ -16,6 +25,26 @@ class Riemann:
             self.gamma = gamma
             self.P_star = Find.Find_P(self.W_left, self.W_right, gamma)
             self.U_star = Find.Find_U(self.W_left, self.W_right, self.P_star, gamma)
+
+            if (self.P_star < self.W_right.pressure):
+                #Rarefaction wave
+                rho_star_r = self.W_right.rho * (self.P_star/self.W_right.pressure)**(1/gamma)
+                self.W_right_star = State("Right star", gamma, rho_star_r, self.U_star, self.P_star)
+            else:
+                #Shock wave
+                rho_star_r = self.W_right.rho * (self.P_star/self.W_right.pressure + (gamma-1)/(gamma+1))/((gamma-1)/(gamma+1) * self.P_star/self.W_right.pressure + 1)
+                self.W_right_star =  State("Right star", gamma, rho_star_r, self.U_star, self.P_star)
+
+
+            if (self.P_star < self.W_left.pressure):
+                #Rarefaction wave
+                rho_star_l = self.W_left.rho * (self.P_star/self.W_left.pressure)**(1/gamma)
+                self.W_left_star =  State("Left star", gamma, rho_star_l, self.U_star, self.P_star)
+            else:
+                #Shock wave
+                rho_star_l = self.W_left.rho * (self.P_star/self.W_left.pressure + (gamma-1)/(gamma+1))/((gamma-1)/(gamma+1) * self.P_star/self.W_left.pressure + 1)
+                self.W_left_star =  State("Left star", gamma, rho_star_l, self.U_star, self.P_star)
+
 
 
     def eval_sampling_point(self, sampling_point):
@@ -61,6 +90,7 @@ class Riemann:
             plt.xlabel("Location x")
 
     def plot_diagram(self, X, x0, t2):
+            """Plot the x-t diagram with the characteristics"""
 
             fig = plt.figure()
             ax = fig.add_subplot(1, 1, 1)
@@ -92,7 +122,6 @@ class Riemann:
                 plot_wave(Speed_HR, X, x0, 0, 2, "Head of the Right Expansion Wave")
 
             if (self.U_star != 0):
-                #Plot contact surface if not vacuum
                 plot_wave(self.U_star, X, x0, 0, 2, "Contact Surface")
 
             plt.grid()
@@ -100,5 +129,6 @@ class Riemann:
             ax.legend()
             plt.xlabel("Location x")
             plt.ylabel("Time t")
+            
 
 

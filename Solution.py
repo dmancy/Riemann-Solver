@@ -23,8 +23,7 @@ def Solution(R, sampling_point):
 
                 elif (sampling_point > Speed_TL):
                     #We are after the expansion fan
-                    rho_star_l = R.W_left.rho * (R.P_star/R.W_left.pressure)**(1/gamma)
-                    return State("Left star", gamma, rho_star_l, R.U_star, R.P_star)
+                    return R.W_left_star
 
                 else:
                     #We are inside the expansion fan
@@ -44,8 +43,7 @@ def Solution(R, sampling_point):
 
                 else:
                     #W_left_star
-                    rho_star_l = R.W_left.rho * (R.P_star/R.W_left.pressure + (gamma-1)/(gamma+1))/((gamma-1)/(gamma+1) * R.P_star/R.W_left.pressure + 1)
-                    return State("Left star", gamma, rho_star_l, R.U_star, R.P_star)
+                    return R.W_left_star
 
         else:
             #We are on the right from CS
@@ -60,8 +58,7 @@ def Solution(R, sampling_point):
                     return R.W_right
 
                 elif (sampling_point < Speed_TR):
-                    rho_star_r = R.W_right.rho * (R.P_star/R.W_right.pressure)**(1/gamma)
-                    return State("Right star", gamma, rho_star_r, R.U_star, R.P_star)
+                    return R.W_right_star
 
                 else:
                     rho = R.W_right.rho * (2/(gamma+1) - (gamma-1)/(gamma+1) * 1/R.W_right.c * (R.W_right.velocity - sampling_point))**(2/(gamma-1))
@@ -77,6 +74,5 @@ def Solution(R, sampling_point):
                 if(sampling_point > Speed_Shock):
                     return R.W_right
                 else:
-                    rho_star_r = R.W_right.rho * (R.P_star/R.W_right.pressure + (gamma-1)/(gamma+1))/((gamma-1)/(gamma+1) * R.P_star/R.W_right.pressure + 1)
-                    return State("Right star", gamma, rho_star_r, R.U_star, R.P_star)
+                    return R.W_right_star
 

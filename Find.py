@@ -40,6 +40,3 @@ def Find_U(W_left, W_right, P_star, gamma):
     #Compute U around the contact surface
     return .5*(W_left.velocity + W_right.velocity) + .5*(function_F(W_right, gamma, P_star) - function_F(W_left, gamma, P_star))
 
-
-
-    
