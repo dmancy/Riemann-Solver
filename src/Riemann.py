@@ -54,7 +54,7 @@ class Riemann:
     def plot_time(self, X, x0, t, string):
             """Plot the repartition of density, velocity and pressure at a given time t, on a mesh X, where the origin of the discontinuity is in x0. Save raw data in a file."""
 
-            f = open("{}.txt".format(string), "w")
+            f = open("../output/{}.txt".format(string), "w")
             f.write('%12s'%"x")
             f.write('%15s'%"rho")
             f.write('%15s'%"ux")
