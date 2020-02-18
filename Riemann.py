@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 from Solution import Solution
 import Find
-from plot_wave import plot_wave
+from Plot_Wave import plot_wave
 from State import State
 
 class Riemann:

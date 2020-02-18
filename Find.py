@@ -1,6 +1,5 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from State import State
 
 def function_F(W, gamma, P_eval):
     #Evaluation of the function f inplied in the search of P_star and U_star

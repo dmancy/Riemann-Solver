@@ -22,4 +22,5 @@ class State:
         self.c = math.sqrt(self.gamma * self.R * self.T)
 
     def print(self):
+        """Print density, velocity, pressure, temperature and sound speed in this region"""
         print("State : {} \nDensity : {} \nVelocity : {} \nPressure : {} \nTemperature : {} \nSound speed : {}\n".format(self.name, self.rho, self.velocity, self.pressure, self.T, self.c))

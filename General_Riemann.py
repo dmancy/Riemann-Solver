@@ -1,7 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from State import State
 from Solution import Solution
 from Riemann import Riemann
 
