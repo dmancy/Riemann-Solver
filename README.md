@@ -1,7 +1,4 @@
 # Riemann-Solver
-## Mech-516 : Computational Gasdynamics
-### Mini-Project #1 - Riemann Solver
-
 
 This program solves a Riemann problem by providing the left state W L = (ρ L , u L , p L ), right state W R = (ρ R , u R , p R ) and gamma, the heat capacity ratio.
 The class Riemann provides methods to plot the density, velocity and pressure plots at a givet time t, as well as x-t diagrams.
@@ -16,4 +13,3 @@ The command line is:
 
 python main.py
 
-#### Damien Mancy - 260855482
